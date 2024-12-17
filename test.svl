@@ -1,0 +1,16 @@
+while True {
+    $x: UINT = 0
+    while $x < 256 {
+        $x = $x + 1
+        $y: UINT = 0
+        while $y < 256 {
+            $y = $y + 1
+            $blue: UINT = 0
+            if $MOUSE_LEFT {
+                $blue = 255
+            }
+            setPixel($x, $y, Color($x, $y, $blue))
+        }
+    }
+    sync()
+}
