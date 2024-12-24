@@ -20,7 +20,7 @@ Here is a simple program that shows a white pixel where the cursor is:
 
 ```
 while True {
-  setPixel($MOUSE_X, $MOUSE_Y, Color(255, 255, 255))
+  setPixel($MOUSE_X, $MOUSE_Y, #FFFF)
   sync()
 }
 ```
@@ -50,11 +50,10 @@ while True {
 SVLang defines the following builtin variables and functions:
 - `$MOUSE_X`, `$MOUSE_Y`: The cursor position as UINTs, going from 0 to 255 inclusive.
 - `$MOUSE_LMB`, `$MOUSE_RMB`: Which mouse buttons are pressed, as BOOLs.
-- `Color(red: UINT, green: UINT, blue: UINT)`: Build a COLOR from the red, green and blue components.
-  **Note:** Unlike the SVC16's internal representation, SVLang colors are defined as 3 8-bit values (0-255 inclusive).
+- `$BUTTON_A`, `$BUTTON_B`, `$BUTTON_UP`, `$BUTTON_DOWN`, `$BUTTON_LEFT`, `$BUTTON_RIGHT`, `$BUTTON_SELECT`, `$BUTTON_START`: Which buttons are pressed, as BOOLs.
+- `Color($red: UINT, $green: UINT, $blue: UINT)`: Build a COLOR from 8-bit red, green and blue components.
 - `sync()`: Flush the display buffer, and update the mouse coordinates and buttons status.
-
-It is not yet possible to define your own functions.
+- `setPixel($x: UINT, $y: UINT, $color: COLOR)`: Set the color of a pixel
 
 ## Tools provided
 

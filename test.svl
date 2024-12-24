@@ -1,3 +1,64 @@
+// TODO move this to builtin stdlib :)
+
+$MOUSE_X: UINT = 0
+$MOUSE_Y: UINT = 0
+$MOUSE_LMB: BOOL = False
+$MOUSE_RMB: BOOL = False
+$BUTTON_A: BOOL = False
+$BUTTON_B: BOOL = False
+$BUTTON_UP: BOOL = False
+$BUTTON_DOWN: BOOL = False
+$BUTTON_LEFT: BOOL = False
+$BUTTON_RIGHT: BOOL = False
+$BUTTON_SELECT: BOOL = False
+$BUTTON_START: BOOL = False
+
+def sync() {
+    $position: UINT = 0
+    $keycodes: UINT = 0
+    ASM Sync $position $keycodes 0
+    $MOUSE_X = $position & 255
+    $MOUSE_Y = $position / 256
+    $MOUSE_LMB = $keycodes & 0b00000001
+    $BUTTON_A = $MOUSE_LMB
+    $MOUSE_RMB = $keycodes & 0b00000010
+    $BUTTON_B = $MOUSE_RMB
+    $BUTTON_UP = $keycodes & 0b000000100
+    $BUTTON_DOWN = $keycodes & 0b00001000
+    $BUTTON_LEFT = $keycodes & 0b00010000
+    $BUTTON_RIGHT = $keycodes & 0b00100000
+    $BUTTON_SELECT = $keycodes & 0b01000000
+    $BUTTON_START = $keycodes & 0b10000000
+}
+
+def Color($red: UINT, $green: UINT, $blue: UINT) -> COLOR {
+    $color: COLOR = #0000 // we need a default value when we declare variables
+    $r: UINT = $red / 8
+    $g: UINT = $green / 4
+    $b: UINT = $blue / 8
+    $color_value: UINT = $red / 8 * 32 + $green / 4 * 8 + $blue / 8
+    ASM Deref 0 $color $color_value
+    return $color
+}
+
+def setPixel($x: UINT, $y: UINT, $color: COLOR) {
+    $index: UINT = $y * 256 + $x
+    ASM Print $color $index 0
+}
+
+def test($a: UINT) -> BOOL {
+    if $a > 1 {
+        test($a)
+    } else {
+        test($a)
+    }
+    return $a > 0
+}
+
+def test2() {
+    return
+}
+
 while True {
     $x: UINT = 0
     while $x < 256 {
@@ -6,8 +67,11 @@ while True {
         while $y < 256 {
             $y = $y + 1
             $blue: UINT = 0
-            if $MOUSE_LEFT {
+            if $MOUSE_LMB {
                 $blue = 255
+            }
+            if $MOUSE_RMB {
+                break
             }
             setPixel($x, $y, Color($x, $y, $blue))
         }
