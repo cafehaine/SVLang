@@ -19,16 +19,16 @@ def sync() {
     ASM Sync $position $keycodes 0
     $MOUSE_X = $position & 255
     $MOUSE_Y = $position / 256
-    $MOUSE_LMB = $keycodes & 0b00000001
+    $MOUSE_LMB = $keycodes & 0b00000001 > 0
     $BUTTON_A = $MOUSE_LMB
-    $MOUSE_RMB = $keycodes & 0b00000010
+    $MOUSE_RMB = $keycodes & 0b00000010 > 0
     $BUTTON_B = $MOUSE_RMB
-    $BUTTON_UP = $keycodes & 0b000000100
-    $BUTTON_DOWN = $keycodes & 0b00001000
-    $BUTTON_LEFT = $keycodes & 0b00010000
-    $BUTTON_RIGHT = $keycodes & 0b00100000
-    $BUTTON_SELECT = $keycodes & 0b01000000
-    $BUTTON_START = $keycodes & 0b10000000
+    $BUTTON_UP = $keycodes & 0b000000100 > 0
+    $BUTTON_DOWN = $keycodes & 0b00001000 > 0
+    $BUTTON_LEFT = $keycodes & 0b00010000 > 0
+    $BUTTON_RIGHT = $keycodes & 0b00100000 > 0
+    $BUTTON_SELECT = $keycodes & 0b01000000 > 0
+    $BUTTON_START = $keycodes & 0b10000000 > 0
 }
 
 def Color($red: UINT, $green: UINT, $blue: UINT) -> COLOR {
@@ -37,7 +37,7 @@ def Color($red: UINT, $green: UINT, $blue: UINT) -> COLOR {
     $g: UINT = $green / 4
     $b: UINT = $blue / 8
     $color_value: UINT = $red / 8 * 32 + $green / 4 * 8 + $blue / 8
-    ASM Deref 0 $color $color_value
+    ASM Add $color $color_value $color
     return $color
 }
 
