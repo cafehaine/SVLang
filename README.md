@@ -1,10 +1,10 @@
 # SVLang, a toy language for the SVC16 "Simplest Virtual Computer"
 
+**NOTE:** This is a WIP. At the moment, the compiler isn't implemented, only
+the parser and type checker.
+
 This repository contains the implementation for SVLang, a simple language for
 the [SVC16 "Simplest Virtual Computer"](https://github.com/JanNeuendorf/SVC16).
-
-It also contains a compiler for SVAssembly, a superset of the assembly shown in
-[SVC16's README.md](https://github.com/JanNeuendorf/SVC16/blob/main/README.md#example).
 
 ## The SVLang Language
 
@@ -37,7 +37,7 @@ while True {
         while $y < 256 {
             $y = $y + 1
             $blue: UINT = 0
-            if $MOUSE_LEFT {
+            if $MOUSE_LMB {
                 $blue = 255
             }
             setPixel($x, $y, Color($x, $y, $blue))
@@ -57,31 +57,12 @@ SVLang defines the following builtin variables and functions:
 
 ## Tools provided
 
-### Compiler/Assembler
+### Compiler
 
-Compile SVLang programs into SVC16 binaries or SVAssembly.
+Compile SVLang programs into SVC16 binaries
 
 Usage
 ```bash
 # Compile SVLang program to SVC16 binary
 python compile.py input.svl output.svc16
-# Compile SVLang program to SVAssembly
-python compile.py input.svl --output-format sva output.sva
-# Assemble SVAssembly to SVC16 binary
-python compile --input-format sva input.sva output.svc16
-```
-
-### Decompiler
-
-Decompiles SVC16 binaries into SVAssembly.
-
-**Note:** The decompiler will stop decompiling at the first invalid instruction
-encountered.
-
-Usage:
-```bash
-# Print assembly to stdout
-python decompiler.py program.svc16
-# Write assembly to a file
-python decompiler.py program.svc16 program.sva
 ```
