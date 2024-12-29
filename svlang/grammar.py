@@ -1,7 +1,7 @@
 import ply.yacc as yacc
 
-from svcast import *
-from tokens import tokens
+from .ast import *
+from .tokens import tokens
 
 start = "statements"
 

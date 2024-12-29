@@ -1,4 +1,3 @@
-from abc import ABC
 from dataclasses import dataclass
 from enum import Enum, auto
 
@@ -8,6 +7,14 @@ from typing import Any, Literal
 @dataclass
 class Statement:
     lineno: int
+
+    def list_variable_declarations(self) -> list[str]:
+        """
+        Recursively list the variables declared in this statement.
+
+        Doesn't return variables declared inside functions.
+        """
+        return []
 
 
 class Expression(Statement): ...
@@ -166,6 +173,9 @@ class Declaration(Statement):
     def __str__(self):
         return f"${self.identifier}: {self.type} = {self.value}"
 
+    def list_variable_declarations(self) -> list[str]:
+        return [self.identifier]
+
 
 @dataclass
 class Assignment(Statement):
@@ -219,6 +229,12 @@ class While(Statement):
             f"while {self.expression} {{{' '.join(str(st) for st in self.statements)}}}"
         )
 
+    def list_variable_declarations(self) -> list[str]:
+        output = []
+        for statement in self.statements:
+            output.extend(statement.list_variable_declarations())
+        return output
+
 
 @dataclass
 class Break(Statement):
@@ -243,6 +259,15 @@ class If(Statement):
         if else_statements:
             return f"if {self.expression} {{{statements}}} else {{{else_statements}}}"
         return f"if {self.expression} {{{statements}}}"
+
+    def list_variable_declarations(self) -> list[str]:
+        output = []
+        for statement in self.statements:
+            output.extend(statement.list_variable_declarations())
+        if self.else_statements:
+            for statement in self.else_statements:
+                output.extend(statement.list_variable_declarations())
+        return output
 
 
 # fmt: off
