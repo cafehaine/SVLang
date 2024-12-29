@@ -64,5 +64,5 @@ Compile SVLang programs into SVC16 binaries
 Usage
 ```bash
 # Compile SVLang program to SVC16 binary
-python compile.py input.svl output.svc16
+python -m svlang input.svl output.svc16
 ```
